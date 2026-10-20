@@ -1,0 +1,3 @@
+<resources>
+    <string name="follow_description">When you explicitly start Follow active app, Phoenix Link captures visible app-window images and sends them to your paired PC for enhancement. Protected windows are skipped. It does not read UI text, record typing, perform gestures or operate other apps. Stop ends capture; enabling this permission alone does not start a session.</string>
+</resources>

@@ -22,8 +22,9 @@ The same pinned native codec bridge is compiled for Windows and Android.
    It uses a dedicated release identity; it is not a Play Store release. A local
    debug build uses a different key and may need uninstalling before this update.
 4. Enter the PC address and port, then paste its certificate SHA-256 fingerprint
-   and pairing token, or import the PC's **Export pairing** file. Keep it private.
-   The PC generates new credentials every time its server starts.
+   and pairing token. The PC's **Export pairing** file can serve as a private
+   reference; the Android UI currently has no file importer. The PC generates new
+   credentials every time its server starts.
 5. Choose **Single app** or **Follow active app**. Single-app mode needs **Overlay
    permission**; follow mode needs the optional **Accessibility permission** instead.
    Select **Pyrowave** or **Raw RGBA**, the capture long

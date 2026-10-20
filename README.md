@@ -61,9 +61,10 @@ historical greatness.
 2. On a compatible Windows PC, open **DLSS5 Everything → Streamer**. Configure its
    Phoenix components and a compatible, separately obtained model, choose your
    private IPv4 address and press **Start streamer**.
-3. Use **Export pairing** on the PC and import the pairing file on the phone, or
-   enter its address, port, certificate fingerprint and token. Keep that file
-   private; pairing credentials change when the server restarts.
+3. Enter the PC's address, port, certificate fingerprint and token in the phone's
+   connection fields. **Export pairing** on the PC can save those details for
+   reference; this Android UI currently uses manual entry, not file import. Keep
+   them private; pairing credentials change when the server restarts.
 4. Choose **Single app** or **Follow active app**, grant only the permissions for
    that mode, then **Start session**. In Android's sharing picker choose **one app**.
 5. Open the floating controls, tune, **Apply settings**, and compare. **Stop** ends

@@ -16,13 +16,18 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v4.0.4
-        with:
-          packages: 'platform-tools'
-          log-accepted-android-sdk-licenses: 'false'
+      - name: Set up Android CLI
+        shell: pwsh
+        run: |
+          $cliDir = Join-Path $env:RUNNER_TEMP 'android-cli'
+          New-Item -ItemType Directory -Force -Path $cliDir | Out-Null
+          Invoke-WebRequest 'https://dl.google.com/android/cli/latest/windows_x86_64/android.exe' -OutFile (Join-Path $cliDir 'android.exe')
+          $cliDir | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          & (Join-Path $cliDir 'android.exe') --no-metrics --version
+          if ($LASTEXITCODE) { throw 'Android CLI setup failed.' }
       - name: Install pinned Android tools
         shell: pwsh
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;27.3.13750724" "cmake;3.22.1"
+        run: android --no-metrics "--sdk=$env:ANDROID_HOME" sdk install "platforms/android-35" "build-tools/36.0.0" "ndk/27.3.13750724" "cmake/3.22.1"
       - name: Prepare pinned codec sources
         shell: pwsh
         run: ./scripts/Prepare-Pyrowave.ps1

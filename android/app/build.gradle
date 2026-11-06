@@ -1,49 +1,50 @@
 plugins { id 'com.android.application' }
 android {
-    namespace 'io.phoenixlink'
-    compileSdk 35
-    ndkVersion '27.3.13750724'
+    enableKotlin = false
+    namespace = 'io.phoenixlink'
+    compileSdk = 35
+    ndkVersion = '27.3.13750724'
     defaultConfig {
-        applicationId 'io.phoenixlink'
-        minSdk 34
-        targetSdk 35
-        versionCode 3
-        versionName '0.3.0-preview.1'
-        testInstrumentationRunner 'io.phoenixlink.EmulatorTests'
+        applicationId = 'io.phoenixlink'
+        minSdk = 34
+        targetSdk = 35
+        versionCode = 3
+        versionName = '0.3.0-preview.1'
+        testInstrumentationRunner = 'io.phoenixlink.EmulatorTests'
         ndk { abiFilters providers.gradleProperty('clientAbi').getOrElse('arm64-v8a') }
         externalNativeBuild { cmake { cppFlags '-std=c++17'; arguments '-DCMAKE_BUILD_TYPE=Release', '-DANDROID_STL=c++_static', "-DPW_DIAGNOSTICS=${providers.gradleProperty('codecDiagnostics').getOrElse('OFF')}" } }
     }
-    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
     // Keep a fresh, stable native staging location after separating this project
     // from the Windows checkout. Existing caches retain the old source paths.
-    externalNativeBuild { cmake { path '../../source/codec/CMakeLists.txt'; version '3.22.1'; buildStagingDirectory file('../../local-build/native-current') } }
+    externalNativeBuild { cmake { path = '../../source/codec/CMakeLists.txt'; version = '3.22.1'; buildStagingDirectory = file('../../local-build/native-current') } }
     sourceSets { main { assets.srcDirs += '../../source/codec/licenses' } }
     // Signing is opt-in. Keep all keys and passwords outside the checkout.
     def signingStore = System.getenv('PHOENIX_ANDROID_KEYSTORE')
     if (signingStore) {
         signingConfigs {
             publicRelease {
-                storeFile file(signingStore)
-                storePassword System.getenv('PHOENIX_ANDROID_STORE_PASSWORD')
-                keyAlias System.getenv('PHOENIX_ANDROID_KEY_ALIAS')
-                keyPassword System.getenv('PHOENIX_ANDROID_KEY_PASSWORD')
+                storeFile = file(signingStore)
+                storePassword = System.getenv('PHOENIX_ANDROID_STORE_PASSWORD')
+                keyAlias = System.getenv('PHOENIX_ANDROID_KEY_ALIAS')
+                keyPassword = System.getenv('PHOENIX_ANDROID_KEY_PASSWORD')
             }
         }
     }
     buildTypes {
-        debug { debuggable true }
+        debug { debuggable = true }
         release {
-            minifyEnabled false
-            if (signingStore) { signingConfig signingConfigs.publicRelease }
+            minifyEnabled = false
+            if (signingStore) { signingConfig = signingConfigs.publicRelease }
         }
     }
 }
 def nativeNotices = layout.buildDirectory.dir('generated/nativeNotices')
 tasks.register('copyNativeNotices', Copy) {
-    from(new File(android.ndkDirectory, 'NOTICE')) { rename { 'Android-NDK-NOTICE.txt' } }
-    from(new File(android.ndkDirectory, 'NOTICE.toolchain')) { rename { 'LLVM-NOTICE.txt' } }
+    from(androidComponents.sdkComponents.ndkDirectory.map { new File(it.asFile, 'NOTICE') }) { rename { 'Android-NDK-NOTICE.txt' } }
+    from(androidComponents.sdkComponents.ndkDirectory.map { new File(it.asFile, 'NOTICE.toolchain') }) { rename { 'LLVM-NOTICE.txt' } }
     into nativeNotices
 }
-android.sourceSets.main.assets.srcDir(nativeNotices)
+android.sourceSets.main.assets.srcDir(nativeNotices.get().asFile)
 tasks.named('preBuild').configure { dependsOn 'copyNativeNotices' }
 dependencies { testImplementation 'junit:junit:4.13.2' }

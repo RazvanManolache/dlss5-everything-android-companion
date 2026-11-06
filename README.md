@@ -102,3 +102,11 @@ and phone. There is no Internet relay, remote pairing service or automatic disco
 
 The [on-device museum experiment](https://github.com/RazvanManolache/dlss5-android-test)
 is a different project. This one outsources the existential crisis.
+
+## Build on GitHub
+
+Open [Actions](https://github.com/RazvanManolache/dlss5-everything-android-companion/actions), select **Android**, then choose **Run workflow** and a branch. When the run succeeds, download its files from **Artifacts** at the bottom of the run page (GitHub sign-in required).
+
+phoenix-companion-arm64-development-apk is an installable debug build for ARM64 devices. phoenix-companion-arm64-release-unsigned needs your own release signing before installation. Development APKs cannot update a release-signed installation in place.
+
+Build downloads are retained for 14 days. They are development snapshots, separate from tagged releases; running this workflow does not publish a release.

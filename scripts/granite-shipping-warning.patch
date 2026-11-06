@@ -1,0 +1,6 @@
+diff --git a/vulkan/command_buffer.cpp b/vulkan/command_buffer.cpp
+--- a/vulkan/command_buffer.cpp
++++ b/vulkan/command_buffer.cpp
+@@ -375,1 +375,1 @@
+-static inline bool is_legacy_layout(VkImageLayout layout)
++[[maybe_unused]] static inline bool is_legacy_layout(VkImageLayout layout)

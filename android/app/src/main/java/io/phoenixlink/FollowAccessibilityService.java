@@ -69,7 +69,7 @@ public final class FollowAccessibilityService extends AccessibilityService {
         }
         AccessibilityNodeInfo root=selected.getRoot();
         String name=root==null || root.getPackageName()==null ? "" : root.getPackageName().toString();
-        if(root!=null)root.recycle();
+        // API 34+ no longer pools AccessibilityNodeInfo instances.
         if(name.isEmpty() || name.equals(getPackageName()) || name.equals("android") || name.equals("com.android.systemui") || name.endsWith(".permissioncontroller")) {
             session.followBlocked("Paused for app settings or system permission UI",true);return;
         }
